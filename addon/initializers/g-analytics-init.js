@@ -28,7 +28,7 @@ export function initialize (app) {
   // We still go through the steps so we ensure the behavior is the same in all
   // environments and we do not run into any surprises.
 
-  Route.reopen ({
+  Route.reopen({
     router: service('router'),
 
     init() {
