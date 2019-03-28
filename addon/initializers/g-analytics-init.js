@@ -33,13 +33,15 @@ export function initialize (app) {
 
     init() {
       this._super(...arguments);
-      this.router.on('routeDidChange', (transition) => {
-        if (transition.intent.name && window.ga) {
-          window.ga(
-            'send', 'pageview', this.router.urlFor(transition.intent.name)
-          );
-        }
-      });
+      if (isProductionEnv) {
+        this.router.on('routeDidChange', (transition) => {
+          if (transition.intent.name && window.ga) {
+            window.ga(
+              'send', 'pageview', this.router.urlFor(transition.intent.name)
+            );
+          }
+        });
+      }
     }
   });
 }
