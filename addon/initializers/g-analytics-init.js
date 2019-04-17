@@ -22,7 +22,8 @@ export function initialize (app) {
 
   if (isProductionEnv) {
     window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga ('create', trackerId, cookieDomain, trackerName);
+    ga('create', trackerId, cookieDomain, trackerName);
+    ga('send', 'pageview');
   }
 
   // We still go through the steps so we ensure the behavior is the same in all
