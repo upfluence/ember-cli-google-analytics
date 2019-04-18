@@ -36,7 +36,7 @@ export function initialize (app) {
       this._super(...arguments);
       if (isProductionEnv) {
         this.router.on('routeDidChange', (transition) => {
-          if (transition.intent.name && window.ga) {
+          if (transition.intent && transition.intent.name && window.ga) {
             window.ga(
               'send', 'pageview', this.router.urlFor(transition.intent.name)
             );
