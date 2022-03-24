@@ -41,15 +41,11 @@ export function initialize(app) {
     // environments and we do not run into any surprises.
     app.lookup("service:router").on("routeDidChange", (transition) => {
       if (transition.intent && transition.intent.name && window.ga) {
-        const sendPageView = () => {
-          window.ga(
-            "send",
-            "pageview",
-            this.router.urlFor(transition.intent.name)
-          );
-        };
-
-        sendPageView();
+        window.ga(
+          "send",
+          "pageview",
+          this.router.urlFor(transition.intent.name)
+        );
       }
     });
   }
