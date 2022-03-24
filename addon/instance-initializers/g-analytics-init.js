@@ -39,13 +39,10 @@ export function initialize(app) {
 
     // We still go through the steps so we ensure the behavior is the same in all
     // environments and we do not run into any surprises.
-    app.lookup("service:router").on("routeDidChange", (transition) => {
+    const router = app.lookup("service:router");
+    router.on("routeDidChange", (transition) => {
       if (transition.intent && transition.intent.name && window.ga) {
-        window.ga(
-          "send",
-          "pageview",
-          this.router.urlFor(transition.intent.name)
-        );
+        window.ga("send", "pageview", router.urlFor(transition.intent.name));
       }
     });
   }
