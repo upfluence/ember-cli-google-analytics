@@ -1,26 +1,31 @@
 /* global ga */
 
-import Ember from 'ember';
+import Ember from "ember";
 
 export function initialize(app) {
   if (app.__ga_initialized__) return;
 
   // Create the one and only tracker need for the application.
-  const ENV = app.resolveRegistration('config:environment');
-  const addonConfig = ENV['ember-cli-google'] || {};
-  const analyticsConfig = addonConfig['analytics'] || {};
+  const ENV = app.resolveRegistration("config:environment");
+  const addonConfig = ENV["ember-cli-google"] || {};
+  const analyticsConfig = addonConfig["analytics"] || {};
   const trackerId = analyticsConfig.trackerId;
 
-  Ember.assert('Missing ember-cli-google.analytics.trackerId in config/environment.', !!trackerId);
+  Ember.assert(
+    "Missing ember-cli-google.analytics.trackerId in config/environment.",
+    !!trackerId
+  );
 
-  const cookieDomain = analyticsConfig.cookieDomain ? analyticsConfig.cookieDomain : 'auto';
+  const cookieDomain = analyticsConfig.cookieDomain
+    ? analyticsConfig.cookieDomain
+    : "auto";
   const trackerName = analyticsConfig.trackerName;
 
   // We only apply Google Analytics in the production environment. Otherwise, we run
   // the risk of collecting analytics of the application while it is in development,
   // testing, or any non-production environment.
   const { environment } = ENV;
-  const isProductionEnv = environment === 'production';
+  const isProductionEnv = environment === "production";
 
   if (isProductionEnv) {
     window.ga =
@@ -29,17 +34,19 @@ export function initialize(app) {
         (ga.q = ga.q || []).push(arguments);
       };
     ga.l = +new Date();
-    ga('create', trackerId, cookieDomain, trackerName);
-    ga('send', 'pageview');
-  }
+    ga("create", trackerId, cookieDomain, trackerName);
+    ga("send", "pageview");
 
-  // We still go through the steps so we ensure the behavior is the same in all
-  // environments and we do not run into any surprises.
-  if (isProductionEnv) {
-    app.lookup('service:router').on('routeDidChange', (transition) => {
+    // We still go through the steps so we ensure the behavior is the same in all
+    // environments and we do not run into any surprises.
+    app.lookup("service:router").on("routeDidChange", (transition) => {
       if (transition.intent && transition.intent.name && window.ga) {
         const sendPageView = () => {
-          window.ga('send', 'pageview', this.router.urlFor(transition.intent.name));
+          window.ga(
+            "send",
+            "pageview",
+            this.router.urlFor(transition.intent.name)
+          );
         };
 
         sendPageView();
@@ -51,5 +58,5 @@ export function initialize(app) {
 }
 
 export default {
-  initialize
+  initialize,
 };
