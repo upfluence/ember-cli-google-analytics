@@ -36,15 +36,6 @@ export function initialize(app) {
     ga.l = +new Date();
     ga("create", trackerId, cookieDomain, trackerName);
     ga("send", "pageview");
-
-    // We still go through the steps so we ensure the behavior is the same in all
-    // environments and we do not run into any surprises.
-    const router = app.lookup("service:router");
-    router.on("routeDidChange", (transition) => {
-      if (transition.intent && transition.intent.name && window.ga) {
-        window.ga("send", "pageview", router.urlFor(transition.intent.name));
-      }
-    });
   }
 
   app.__ga_initialized__ = true;
